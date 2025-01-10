@@ -6,7 +6,7 @@
 /*   By: aal-hawa <aal-hawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 13:09:23 by aal-hawa          #+#    #+#             */
-/*   Updated: 2025/01/09 17:00:44 by aal-hawa         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:06:07 by aal-hawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 typedef struct s_precedence
 {
-	char precedence[10];
+	char precedence[11];
 }	t_precedence;
 
 typedef struct s_command
@@ -78,5 +78,7 @@ typedef struct s_info
 // void		get_path_command(char **strs, t_info *info);
 // void		allocate_fds(int ***fd, pid_t **frs, int j);
 char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char const *s1, char const *s2);
+
 
 #endif

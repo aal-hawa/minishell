@@ -6,31 +6,62 @@
 /*   By: aal-hawa <aal-hawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 13:12:57 by aal-hawa          #+#    #+#             */
-/*   Updated: 2025/01/09 16:57:31 by aal-hawa         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:22:27 by aal-hawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	sentence_division(char **str, t_info *info)
+t_command *sentence_division(char **split, t_precedence *precedence)
 {
-	
+	int	i;
+	int	j;
+	int	x;
+	char **order_str;
+	t_command *commands;
+
+	i = 0;
+	x = 0;
+	commands = malloc(sizeof(t_command) * 11);
+	if (!commands)
+		return (NULL);
+	while (split[i])
+	{
+		j = 0;
+		while (precedence->precedence[j])
+		{
+			if (split[i] == precedence->precedence[j])
+			{
+				commands[x].order_precedence = j;
+				commands[x].order_sentence = x;
+				commands[x].sentence = ft_strjoin(split[i - 1], split[i + 1]);
+				x++;
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (commands);
 }
 
-int	readline_func(t_info *info)
+int	readline_func(t_precedence *precedence)
 {
 	char	*input_data;
-	char	**splt;
-
+	char	**split;
+	t_command *commands;
+	
 	while (1)
 	{
 		input_data = readline("miniShell> ");
 		add_history(input_data);
-		splt = ft_split(input_data, ' ');
-
+		split = ft_split(input_data, ' ');
+		commands = sentence_division(split,  precedence);
 		printf("your input is: %s\n", input_data);
 		free(input_data);
 		input_data = NULL;
+		free(commands);
+		commands = NULL;
 	}
 	return (0);
 }
@@ -47,6 +78,7 @@ void	init_precedence(t_precedence *precedence)
 	precedence->precedence[7] = "||";
 	precedence->precedence[8] = ";";
 	precedence->precedence[9] = "&";
+	precedence->precedence[10] = "\0";
 	
 }
 void	init_info(t_info *info)
