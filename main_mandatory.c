@@ -6,11 +6,28 @@
 /*   By: aal-hawa <aal-hawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 13:12:57 by aal-hawa          #+#    #+#             */
-/*   Updated: 2025/01/10 16:22:27 by aal-hawa         ###   ########.fr       */
+/*   Updated: 2025/01/11 14:20:43 by aal-hawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	order_commands(t_precedence *precedence, t_command *commands)
+{
+	t_command *new_commands;
+	int	i;
+	int	order_precedence;
+
+	order_precedence = 50;
+	i = 0;
+	new_commands = malloc(sizeof(t_command) * 100);
+	
+	while(commands[i].order_precedence < order_precedence)
+	{
+		order_precedence = commands[i].order_precedence;
+		i++;
+	}
+}
 
 t_command *sentence_division(char **split, t_precedence *precedence)
 {
@@ -22,7 +39,7 @@ t_command *sentence_division(char **split, t_precedence *precedence)
 
 	i = 0;
 	x = 0;
-	commands = malloc(sizeof(t_command) * 11);
+	commands = malloc(sizeof(t_command) * 100);
 	if (!commands)
 		return (NULL);
 	while (split[i])
@@ -34,7 +51,7 @@ t_command *sentence_division(char **split, t_precedence *precedence)
 			{
 				commands[x].order_precedence = j;
 				commands[x].order_sentence = x;
-				commands[x].sentence = ft_strjoin(split[i - 1], split[i + 1]);
+				commands[x].cmd = ft_strjoin(split[i - 1], split[i + 1]);
 				x++;
 				break ;
 			}
